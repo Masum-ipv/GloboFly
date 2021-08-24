@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">GloboFly</string>
+    <string name="slogan">...for endless vacations</string>
+    <string name="get_started">GET STARTED</string>
+    <string-array name="country_list">
+        <item> Bangladesh1</item>
+        <item> Bangladesh2</item>
+        <item> Bangladesh3</item>
+        <item> Bangladesh4</item>
+    </string-array>
+</resources>
