@@ -1,6 +1,8 @@
 package com.learning.globofly.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -9,31 +11,29 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.learning.globofly.R;
+import com.learning.globofly.adapters.CountryListAdapter;
 import com.learning.globofly.models.Destination;
 import com.learning.globofly.services.DestinationService;
 import com.learning.globofly.services.ServiceBuilder;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class DestinyListActivity extends AppCompatActivity {
 
-    ListView destinationList;
+    RecyclerView destinationRecyclerView;
     FloatingActionButton fab;
+    CountryListAdapter countryListAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_destiny_list);
-        destinationList = (ListView) findViewById(R.id.destinationList);
+        destinationRecyclerView = (RecyclerView) findViewById(R.id.destinationList);
         fab = (FloatingActionButton) findViewById(R.id.addButton);
 
         loadDestinationList();
@@ -55,6 +55,7 @@ public class DestinyListActivity extends AppCompatActivity {
 
     private void loadDestinationList() {
         List<String> countryNames = new ArrayList<>();
+        List<String> cityNames = new ArrayList<>();
         DestinationService destinationService = ServiceBuilder.createService(DestinationService.class);
         Call<List<Destination>> messageCall = destinationService.doGetListResources();
         messageCall.enqueue(new Callback<List<Destination>>() {
@@ -63,25 +64,28 @@ public class DestinyListActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     for (Destination destination : response.body()) {
                         Log.d("Destination", "onResponse destination.getCountry() : " + destination.getCountry());
+                        Log.d("Destination", "onResponse destination.getCity() : " + destination.getCity());
                         countryNames.add(destination.getCountry());
+                        cityNames.add(destination.getCity());
                     }
-                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(DestinyListActivity.this, R.layout.country_view, R.id.countryID, countryNames);
-                    destinationList.setAdapter(adapter);
-                } else {
-                    Toast.makeText(DestinyListActivity.this, "Faild to retrive items", Toast.LENGTH_SHORT).show();
-                }
+                    countryListAdapter = new CountryListAdapter(getApplicationContext(), countryNames, cityNames);
+                    destinationRecyclerView.setAdapter(countryListAdapter);
+                    destinationRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
-                destinationList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                        Intent intent = new Intent(DestinyListActivity.this, DestinyDetailActivity.class);
-                        intent.putExtra("index", i);
-                        intent.putExtra("city", response.body().get(i).getCity());
-                        intent.putExtra("country", response.body().get(i).getCountry());
-                        intent.putExtra("description", response.body().get(i).getDescription());
-                        startActivity(intent);
-                    }
-                });
+                    countryListAdapter.setOnItemClickerListener(new CountryListAdapter.ClickListener() {
+                        @Override
+                        public void onItemClickListener(View view, int position) {
+                            Intent intent = new Intent(DestinyListActivity.this, DestinyDetailActivity.class);
+                            intent.putExtra("index", position);
+                            intent.putExtra("city", response.body().get(position).getCity());
+                            intent.putExtra("country", response.body().get(position).getCountry());
+                            intent.putExtra("description", response.body().get(position).getDescription());
+                            startActivity(intent);
+                        }
+                    });
+                } else {
+                    Toast.makeText(DestinyListActivity.this, "Failed to retrieve items", Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
