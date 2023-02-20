@@ -8,4 +8,5 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="slogan_color">#424242</color>
+    <color name="yellow">#ECF687</color>
 </resources>

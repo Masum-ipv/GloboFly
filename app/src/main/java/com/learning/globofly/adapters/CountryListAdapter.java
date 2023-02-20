@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.learning.globofly.R;
+import com.learning.globofly.models.Destination;
 
 import java.util.List;
 
@@ -17,12 +18,11 @@ public class CountryListAdapter extends RecyclerView.Adapter<CountryListAdapter.
 
     private static ClickListener clickListener;
     Context context;
-    List<String> countryNames, cityNames;
+    private List<Destination> mList;
 
-    public CountryListAdapter(Context context, List<String> countryNames, List<String> cityNames) {
+    public CountryListAdapter(Context context, List<Destination> mList) {
         this.context = context;
-        this.countryNames = countryNames;
-        this.cityNames = cityNames;
+        this.mList = mList;
     }
 
     @NonNull
@@ -36,13 +36,13 @@ public class CountryListAdapter extends RecyclerView.Adapter<CountryListAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull @org.jetbrains.annotations.NotNull CountryListAdapter.CountryViewHolder holder, int position) {
-        holder.countryId.setText(countryNames.get(position));
-        holder.cityId.setText(cityNames.get(position));
+        holder.countryId.setText(mList.get(position).getCountry());
+        holder.cityId.setText(mList.get(position).getCity());
     }
 
     @Override
     public int getItemCount() {
-        return countryNames.size();
+        return mList.size();
     }
 
     class CountryViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
