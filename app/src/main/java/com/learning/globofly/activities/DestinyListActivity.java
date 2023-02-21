@@ -38,8 +38,12 @@ public class DestinyListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_destiny_list);
-        destinationRecyclerView = (RecyclerView) findViewById(R.id.destinationList);
+
         fab = (FloatingActionButton) findViewById(R.id.addButton);
+        destinationRecyclerView = (RecyclerView) findViewById(R.id.destinationList);
+        countryListAdapter = new CountryListAdapter(this);
+        destinationRecyclerView.setAdapter(countryListAdapter);
+        destinationRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         loadDestinationList();
 
@@ -50,12 +54,13 @@ public class DestinyListActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-    }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        //loadDestinationList(); //TODO: Need to modify
+        countryListAdapter.setOnItemClickerListener(new CountryListAdapter.ClickListener() {
+            @Override
+            public void onItemClickListener(View view, int position) {
+                Log.d("Test", String.valueOf(position));
+            }
+        });
     }
 
     private void loadDestinationList() {
@@ -63,9 +68,7 @@ public class DestinyListActivity extends AppCompatActivity {
         viewModel.getDestinationList().observe(this, new Observer<List<Destination>>() {
             @Override
             public void onChanged(List<Destination> destinations) {
-                countryListAdapter = new CountryListAdapter(getApplicationContext(), destinations);
-                destinationRecyclerView.setAdapter(countryListAdapter);
-                destinationRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                countryListAdapter.setDestinyList(destinations);
             }
         });
     }

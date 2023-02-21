@@ -20,9 +20,8 @@ public class CountryListAdapter extends RecyclerView.Adapter<CountryListAdapter.
     Context context;
     private List<Destination> mList;
 
-    public CountryListAdapter(Context context, List<Destination> mList) {
+    public CountryListAdapter(Context context) {
         this.context = context;
-        this.mList = mList;
     }
 
     @NonNull
@@ -36,13 +35,25 @@ public class CountryListAdapter extends RecyclerView.Adapter<CountryListAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull @org.jetbrains.annotations.NotNull CountryListAdapter.CountryViewHolder holder, int position) {
-        holder.countryId.setText(mList.get(position).getCountry());
-        holder.cityId.setText(mList.get(position).getCity());
+        if (mList != null) {
+            holder.countryId.setText(mList.get(position).getCountry());
+            holder.cityId.setText(mList.get(position).getCity());
+        } else {
+            holder.countryId.setText("No Data");
+            holder.cityId.setText("No Data");
+        }
     }
 
     @Override
     public int getItemCount() {
-        return mList.size();
+        if (mList != null)
+            return mList.size();
+        else return 0;
+    }
+
+    public void setDestinyList(List<Destination> destinations) {
+        this.mList = destinations;
+        notifyDataSetChanged();
     }
 
     class CountryViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
