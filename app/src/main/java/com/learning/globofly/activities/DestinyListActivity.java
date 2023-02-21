@@ -39,8 +39,8 @@ public class DestinyListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_destiny_list);
 
-        fab = (FloatingActionButton) findViewById(R.id.addButton);
-        destinationRecyclerView = (RecyclerView) findViewById(R.id.destinationList);
+        fab = findViewById(R.id.addButton);
+        destinationRecyclerView = findViewById(R.id.destinationList);
         countryListAdapter = new CountryListAdapter(this);
         destinationRecyclerView.setAdapter(countryListAdapter);
         destinationRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -58,7 +58,13 @@ public class DestinyListActivity extends AppCompatActivity {
         countryListAdapter.setOnItemClickerListener(new CountryListAdapter.ClickListener() {
             @Override
             public void onItemClickListener(View view, int position) {
-                Log.d("Test", String.valueOf(position));
+                Destination destination = countryListAdapter.getDestinationAtPosition(position);
+                Intent intent = new Intent(DestinyListActivity.this, DestinyDetailActivity.class);
+                intent.putExtra("index", position);
+                intent.putExtra("city", destination.getCity());
+                intent.putExtra("country", destination.getCountry());
+                intent.putExtra("description", destination.getDescription());
+                startActivity(intent);
             }
         });
     }

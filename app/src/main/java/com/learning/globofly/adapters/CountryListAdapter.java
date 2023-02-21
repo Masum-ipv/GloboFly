@@ -56,6 +56,10 @@ public class CountryListAdapter extends RecyclerView.Adapter<CountryListAdapter.
         notifyDataSetChanged();
     }
 
+    public Destination getDestinationAtPosition(int position) {
+        return mList.get(position);
+    }
+
     class CountryViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView cityId, countryId;
