@@ -1,6 +1,6 @@
-# Retrofit
-Retrofit is a REST Client for Java and Android. It makes it relatively easy to retrieve and upload JSON (or other structured data) via a REST based webservice. 
+`Retrofit` is a REST Client for Java and Android. It makes it relatively easy to retrieve and upload JSON (or other structured data) via a REST based webservice. 
 
+`Model-View-ViewModel (MVVM)` software design pattern have been used.
 ### _This project is based on this [Tutorial]_
 ### _As webservice this Speing Boot [Application] can be used_
 
