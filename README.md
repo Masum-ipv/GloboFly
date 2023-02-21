@@ -32,5 +32,5 @@ git clone git@github.com:Masum-ipv/GloboFly.git
     Call<Destination> deleteDestination(@Path("id") int id);
 ```
 
-[Tutorial]: <https://github.com/Masum-ipv/restapi>
-[Application]: https://www.youtube.com/playlist?list=PLlxmoA0rQ-LzEmWs4T99j2w6VnaQVGEtR
+[Application]: <https://github.com/Masum-ipv/restapi>
+[Tutorial]: https://www.youtube.com/playlist?list=PLlxmoA0rQ-LzEmWs4T99j2w6VnaQVGEtR
