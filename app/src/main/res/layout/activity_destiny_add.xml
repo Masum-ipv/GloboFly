@@ -15,14 +15,6 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/add_city"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="24dp"
-        android:hint="City Name"
-        android:maxLines="1"
-        app:layout_constraintTop_toBottomOf="@+id/plane_image" />
 
     <EditText
         android:id="@+id/add_country"
@@ -32,7 +24,16 @@
         android:hint="Country Name"
         android:maxLines="1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/add_city" />
+        app:layout_constraintTop_toBottomOf="@id/plane_image" />
+
+    <EditText
+        android:id="@+id/add_city"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="24dp"
+        android:hint="City Name"
+        android:maxLines="1"
+        app:layout_constraintTop_toBottomOf="@+id/add_country" />
 
     <EditText
         android:id="@+id/add_description"
@@ -43,7 +44,7 @@
         android:inputType="textMultiLine"
         android:maxLines="5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/add_country" />
+        app:layout_constraintTop_toBottomOf="@id/add_city" />
 
     <Button
         android:id="@+id/add_btn"

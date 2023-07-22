@@ -29,7 +29,7 @@ public class CountryListAdapter extends RecyclerView.Adapter<CountryListAdapter.
     @Override
     public CountryViewHolder onCreateViewHolder(@NonNull @org.jetbrains.annotations.NotNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(context);
-        View view = layoutInflater.inflate(R.layout.country_view, parent, false);
+        View view = layoutInflater.inflate(R.layout.destiny_item, parent, false);
         return new CountryViewHolder(view);
     }
 

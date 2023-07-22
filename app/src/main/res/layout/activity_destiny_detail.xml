@@ -16,9 +16,17 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:layout_margin="24dp"
+        android:layout_weight="1"
         android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/et_country"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:hint="Country Name"
+            android:maxLines="1" />
 
         <EditText
             android:id="@+id/et_city"
@@ -26,14 +34,6 @@
             android:layout_height="wrap_content"
             android:hint="City Name"
             android:maxLines="1" />
-
-        <EditText
-            android:id="@+id/et_country"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:maxLines="1"
-            android:hint="Country Name"/>
 
         <EditText
             android:id="@+id/et_description"
@@ -44,33 +44,33 @@
             android:inputType="textMultiLine"
             android:maxLines="5" />
     </LinearLayout>
-        <LinearLayout
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="24dp"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <Button
+            android:id="@+id/btn_delete"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_margin="24dp"
-            android:weightSum="2">
+            android:layout_weight="1"
+            android:text="Delete"
+            android:textSize="16sp" />
 
-            <Button
-                android:id="@+id/btn_delete"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Delete"
-                android:textSize="16sp" />
+        <Button
+            android:id="@+id/btn_update"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_weight="1"
+            android:text="Update"
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
 
-            <Button
-                android:id="@+id/btn_update"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_weight="1"
-                android:text="Update"
-                android:textColor="@android:color/white"
-                android:textSize="16sp" />
-
-        </LinearLayout>
-
+    </LinearLayout>
 
 
 </LinearLayout>
