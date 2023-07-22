@@ -1,11 +1,27 @@
 package com.learning.globofly.models;
 
-public class Destination {
-    String city;
-    String description;
-    String country;
+import javax.annotation.Generated;
 
-    public Destination(String city, String country, String description) {
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
+@Generated("jsonschema2pojo")
+public class Destination {
+
+    @SerializedName("city")
+    @Expose
+    private String city;
+    @SerializedName("description")
+    @Expose
+    private String description;
+    @SerializedName("country")
+    @Expose
+    private String country;
+
+    public Destination() {
+    }
+
+    public Destination(String city, String description, String country) {
         this.city = city;
         this.description = description;
         this.country = country;
@@ -34,4 +50,5 @@ public class Destination {
     public void setCountry(String country) {
         this.country = country;
     }
+
 }

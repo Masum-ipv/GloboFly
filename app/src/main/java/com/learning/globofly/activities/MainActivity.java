@@ -49,21 +49,6 @@ public class MainActivity extends AppCompatActivity {
             });
 
 
-//            ApiServices apiServices = RetrofitInstance.createService(ApiServices.class);
-//            Call<String> messageCall = apiServices.getMessage();
-//            messageCall.enqueue(new Callback<String>() {
-//                @Override
-//                public void onResponse(Call<String> call, Response<String> response) {
-//                    if (response.isSuccessful()) {
-//                        message.setText(response.body());
-//                    }
-//                }
-//
-//                @Override
-//                public void onFailure(Call<String> call, Throwable t) {
-//                }
-//            });
-
             start.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
