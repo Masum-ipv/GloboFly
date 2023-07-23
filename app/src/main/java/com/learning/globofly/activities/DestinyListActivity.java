@@ -4,6 +4,11 @@ import static com.learning.globofly.activities.DestinyAddActivity.CITY;
 import static com.learning.globofly.activities.DestinyAddActivity.COUNTRY;
 import static com.learning.globofly.activities.DestinyAddActivity.DESCRIPTION;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Toast;
+
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
@@ -16,23 +21,19 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.Toast;
-
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.learning.globofly.R;
-import com.learning.globofly.ViewModel.DestinyListViewModel;
 import com.learning.globofly.adapters.CountryListAdapter;
+import com.learning.globofly.adapters.CountryListAdapter.ClickListener;
 import com.learning.globofly.models.Destination;
+import com.learning.globofly.viewmodel.DestinyListViewModel;
 
 import java.util.List;
 
-public class DestinyListActivity extends AppCompatActivity {
+public class DestinyListActivity extends AppCompatActivity implements ClickListener {
 
     RecyclerView destinationRecyclerView;
+    private List<Destination> destinations;
     FloatingActionButton fab;
     CountryListAdapter countryListAdapter;
     private DestinyListViewModel viewModel;
@@ -41,6 +42,7 @@ public class DestinyListActivity extends AppCompatActivity {
     public static final String INDEX = "index";
     public static final int NEW_WORD_ACTIVITY_REQUEST_CODE = 1;
     public static final int UPDATE_WORD_ACTIVITY_REQUEST_CODE = 2;
+    ActivityResultLauncher<Intent> intentResultLauncher;
 
 
     @Override
@@ -50,13 +52,9 @@ public class DestinyListActivity extends AppCompatActivity {
 
         fab = findViewById(R.id.addButton);
         destinationRecyclerView = findViewById(R.id.destinationList);
-        countryListAdapter = new CountryListAdapter(this);
-        destinationRecyclerView.setAdapter(countryListAdapter);
-        destinationRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        loadDestinations();
 
-        loadDestinationList();
-
-        ActivityResultLauncher<Intent> intentResultLauncher = registerForActivityResult(
+        intentResultLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 new ActivityResultCallback<ActivityResult>() {
                     @Override
@@ -86,31 +84,37 @@ public class DestinyListActivity extends AppCompatActivity {
             }
         });
 
-        countryListAdapter.setOnItemClickerListener(new CountryListAdapter.ClickListener() {
-            @Override
-            public void onItemClickListener(View view, int position) {
-                Destination destination = countryListAdapter.getDestinationAtPosition(position);
-                Intent intent = new Intent(DestinyListActivity.this, DestinyAddActivity.class);
-                intent.putExtra(INDEX, position);
-                intent.putExtra(CITY, destination.getCity());
-                intent.putExtra(COUNTRY, destination.getCountry());
-                intent.putExtra(DESCRIPTION, destination.getDescription());
-                intentResultLauncher.launch(intent);
-            }
-        });
-
         //Swipe Left/Right for delete
         swipeCard(swipeDirections);
     }
 
-    private void loadDestinationList() {
+    private void loadDestinations() {
         viewModel = new ViewModelProvider(this).get(DestinyListViewModel.class);
         viewModel.getDestinationList().observe(this, new Observer<List<Destination>>() {
             @Override
-            public void onChanged(List<Destination> destinations) {
-                countryListAdapter.setDestinyList(destinations);
+            public void onChanged(List<Destination> destinationList) {
+                destinations = destinationList;
+                loadAdapter();
             }
         });
+    }
+
+    private void loadAdapter() {
+        countryListAdapter = new CountryListAdapter(this, destinations);
+        destinationRecyclerView.setAdapter(countryListAdapter);
+        destinationRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        countryListAdapter.setOnItemClickerListener(this);
+    }
+
+    @Override
+    public void onItemClickListener(View view, int position) {
+        Destination destination = destinations.get(position);
+        Intent intent = new Intent(DestinyListActivity.this, DestinyAddActivity.class);
+        intent.putExtra(INDEX, position);
+        intent.putExtra(CITY, destination.getCity());
+        intent.putExtra(COUNTRY, destination.getCountry());
+        intent.putExtra(DESCRIPTION, destination.getDescription());
+        intentResultLauncher.launch(intent);
     }
 
     private void swipeCard(int swipeDirections) {
@@ -128,11 +132,10 @@ public class DestinyListActivity extends AppCompatActivity {
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 int position = viewHolder.getBindingAdapterPosition();
-                Destination destination = countryListAdapter.getDestinationAtPosition(position);
+                Destination destination = destinations.get(position);
                 Toast.makeText(getApplicationContext(), destination.getCity() + " has been deleted.", Toast.LENGTH_SHORT).show();
                 // Delete the word
                 viewModel.deleteDestination(position);
-
                 countryListAdapter.notifyItemRemoved(position);
             }
         });

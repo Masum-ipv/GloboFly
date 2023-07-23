@@ -1,13 +1,13 @@
-package com.learning.globofly.Repository;
+package com.learning.globofly.repository;
 
-import android.content.Context;
+import android.app.Application;
 import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 
-import com.learning.globofly.Network.ApiServices;
-import com.learning.globofly.Network.RetrofitInstance;
 import com.learning.globofly.models.Destination;
+import com.learning.globofly.network.ApiServices;
+import com.learning.globofly.network.RetrofitInstance;
 
 import java.util.List;
 
@@ -16,33 +16,24 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class DestinationRepository {
-    private static Context mContext;
-    private static DestinationRepository destinationRepositoryInstance;
-    private List<Destination> mResult;
-    private MutableLiveData destinationListMutableLiveData;
-    private MutableLiveData messageMutableLiveData;
+    private Application application;
+    private List<Destination> destinations;
+    private MutableLiveData<List<Destination>> destinationListMutableLiveData = new MutableLiveData<>();
+    private MutableLiveData<String> messageMutableLiveData = new MutableLiveData<>();
 
 
-    public static DestinationRepository getMovieRepositoryInstance(Context context) {
-        if (destinationRepositoryInstance == null) {
-            mContext = context;
-            destinationRepositoryInstance = new DestinationRepository();
-        }
-        return destinationRepositoryInstance;
+    public DestinationRepository(Application application) {
+        this.application = application;
     }
 
     public MutableLiveData<List<Destination>> getDestinationList() {
-        if (destinationListMutableLiveData == null) {
-            destinationListMutableLiveData = new MutableLiveData();
-        }
-
-        ApiServices apiServices = RetrofitInstance.getRetrofitInstance().create(ApiServices.class);
-        Call<List<Destination>> call = apiServices.doGetListResources();
+        ApiServices apiServices = RetrofitInstance.getRetrofitInstance();
+        Call<List<Destination>> call = apiServices.getDestinations();
         call.enqueue(new Callback<List<Destination>>() {
             @Override
             public void onResponse(Call<List<Destination>> call, Response<List<Destination>> response) {
-                mResult = response.body();
-                destinationListMutableLiveData.postValue(mResult);
+                destinations = response.body();
+                destinationListMutableLiveData.setValue(destinations);
             }
 
             @Override
@@ -55,16 +46,12 @@ public class DestinationRepository {
     }
 
     public MutableLiveData<String> getMessage() {
-        if (messageMutableLiveData == null) {
-            messageMutableLiveData = new MutableLiveData();
-        }
-
-        ApiServices apiServices = RetrofitInstance.getRetrofitInstance().create(ApiServices.class);
+        ApiServices apiServices = RetrofitInstance.getRetrofitInstance();
         Call<String> call = apiServices.getMessage();
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
-                messageMutableLiveData.postValue(response.body());
+                messageMutableLiveData.setValue(response.body());
             }
 
             @Override
@@ -77,13 +64,13 @@ public class DestinationRepository {
     }
 
     public void addDestination(Destination destination) {
-        ApiServices apiServices = RetrofitInstance.getRetrofitInstance().create(ApiServices.class);
+        ApiServices apiServices = RetrofitInstance.getRetrofitInstance();
         Call<Destination> call = apiServices.addDestination(destination);
         call.enqueue(new Callback<Destination>() {
             @Override
             public void onResponse(Call<Destination> call, Response<Destination> response) {
-                mResult.add(destination);
-                destinationListMutableLiveData.postValue(mResult);
+                destinations.add(response.body());
+                destinationListMutableLiveData.setValue(destinations);
             }
 
             @Override
@@ -94,13 +81,13 @@ public class DestinationRepository {
     }
 
     public void updateDestination(int index, Destination destination) {
-        ApiServices apiServices = RetrofitInstance.getRetrofitInstance().create(ApiServices.class);
+        ApiServices apiServices = RetrofitInstance.getRetrofitInstance();
         Call<Destination> call = apiServices.updateDestination(index, destination);
         call.enqueue(new Callback<Destination>() {
             @Override
             public void onResponse(Call<Destination> call, Response<Destination> response) {
-                mResult.set(index, destination);
-                destinationListMutableLiveData.postValue(mResult);
+                destinations.set(index, response.body());
+                destinationListMutableLiveData.setValue(destinations);
             }
 
             @Override
@@ -111,13 +98,13 @@ public class DestinationRepository {
     }
 
     public void deleteDestination(int index) {
-        ApiServices apiServices = RetrofitInstance.getRetrofitInstance().create(ApiServices.class);
+        ApiServices apiServices = RetrofitInstance.getRetrofitInstance();
         Call<Destination> call = apiServices.deleteDestination(index);
         call.enqueue(new Callback<Destination>() {
             @Override
             public void onResponse(Call<Destination> call, Response<Destination> response) {
-                mResult.remove(index);
-                destinationListMutableLiveData.postValue(mResult);
+                destinations.remove(index);
+                destinationListMutableLiveData.setValue(destinations);
             }
 
             @Override

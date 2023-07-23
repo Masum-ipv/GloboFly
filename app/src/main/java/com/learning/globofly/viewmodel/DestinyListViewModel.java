@@ -1,4 +1,4 @@
-package com.learning.globofly.ViewModel;
+package com.learning.globofly.viewmodel;
 
 import android.app.Application;
 
@@ -6,8 +6,8 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
-import com.learning.globofly.Repository.DestinationRepository;
 import com.learning.globofly.models.Destination;
+import com.learning.globofly.repository.DestinationRepository;
 
 import java.util.List;
 
@@ -17,7 +17,7 @@ public class DestinyListViewModel extends AndroidViewModel {
 
     public DestinyListViewModel(@NonNull Application application) {
         super(application);
-        destinationRepository = DestinationRepository.getMovieRepositoryInstance(application);
+        destinationRepository = new DestinationRepository(application);
     }
 
     public MutableLiveData<List<Destination>> getDestinationList() {

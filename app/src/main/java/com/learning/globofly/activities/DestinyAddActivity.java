@@ -1,6 +1,6 @@
 package com.learning.globofly.activities;
 
-import static com.learning.globofly.Utils.Helper.notEmpty;
+import static com.learning.globofly.utils.Helper.notEmpty;
 import static com.learning.globofly.activities.DestinyListActivity.INDEX;
 import static com.learning.globofly.activities.DestinyListActivity.NEW_WORD_ACTIVITY_REQUEST_CODE;
 import static com.learning.globofly.activities.DestinyListActivity.REQUEST_CODE;
@@ -18,7 +18,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.learning.globofly.R;
-import com.learning.globofly.ViewModel.DestinyListViewModel;
+import com.learning.globofly.viewmodel.DestinyListViewModel;
 
 public class DestinyAddActivity extends AppCompatActivity {
 

@@ -1,4 +1,4 @@
-package com.learning.globofly.Network;
+package com.learning.globofly.network;
 
 import com.learning.globofly.models.Destination;
 
@@ -15,7 +15,7 @@ import retrofit2.http.Path;
 public interface ApiServices {
 
     @GET("destination")
-    Call<List<Destination>> doGetListResources();
+    Call<List<Destination>> getDestinations();
 
     @GET("messages")
     Call<String> getMessage();

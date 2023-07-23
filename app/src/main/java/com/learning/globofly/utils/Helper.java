@@ -1,4 +1,4 @@
-package com.learning.globofly.Utils;
+package com.learning.globofly.utils;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
@@ -7,6 +7,9 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 public class Helper {
+
+    public static final String BASE_URL = "http://10.0.3.2:9000/";
+
     public static boolean isNetworkAvailable(Context context) {
         // Check the status of the network connection.
         ConnectivityManager connMgr = (ConnectivityManager)
@@ -17,7 +20,7 @@ public class Helper {
         }
 
         // If the network is available, connected
-        if (networkInfo != null && networkInfo.isConnected())
+        if (networkInfo != null && networkInfo.isConnectedOrConnecting())
             return true;
         else {
             Toast.makeText(context, "Network connection error!", Toast.LENGTH_SHORT).show();

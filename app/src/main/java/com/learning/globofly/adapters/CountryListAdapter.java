@@ -1,43 +1,44 @@
 package com.learning.globofly.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.learning.globofly.R;
 import com.learning.globofly.models.Destination;
 
 import java.util.List;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
 public class CountryListAdapter extends RecyclerView.Adapter<CountryListAdapter.CountryViewHolder> {
 
     private static ClickListener clickListener;
     Context context;
-    private List<Destination> mList;
+    private List<Destination> destinations;
 
-    public CountryListAdapter(Context context) {
+    public CountryListAdapter(Context context, List<Destination> destinations) {
         this.context = context;
+        this.destinations = destinations;
     }
 
     @NonNull
-    @org.jetbrains.annotations.NotNull
     @Override
-    public CountryViewHolder onCreateViewHolder(@NonNull @org.jetbrains.annotations.NotNull ViewGroup parent, int viewType) {
+    public CountryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         View view = layoutInflater.inflate(R.layout.destiny_item, parent, false);
         return new CountryViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull @org.jetbrains.annotations.NotNull CountryListAdapter.CountryViewHolder holder, int position) {
-        if (mList != null) {
-            holder.countryId.setText(mList.get(position).getCountry());
-            holder.cityId.setText(mList.get(position).getCity());
+    public void onBindViewHolder(@NonNull CountryViewHolder holder, int position) {
+        if (destinations != null) {
+            holder.countryId.setText(destinations.get(position).getCountry());
+            holder.cityId.setText(destinations.get(position).getCity());
         } else {
             holder.countryId.setText("No Data");
             holder.cityId.setText("No Data");
@@ -46,18 +47,7 @@ public class CountryListAdapter extends RecyclerView.Adapter<CountryListAdapter.
 
     @Override
     public int getItemCount() {
-        if (mList != null)
-            return mList.size();
-        else return 0;
-    }
-
-    public void setDestinyList(List<Destination> destinations) {
-        this.mList = destinations;
-        notifyDataSetChanged();
-    }
-
-    public Destination getDestinationAtPosition(int position) {
-        return mList.get(position);
+        return destinations == null ? 0 : destinations.size();
     }
 
     class CountryViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

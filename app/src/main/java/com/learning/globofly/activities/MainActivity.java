@@ -3,11 +3,6 @@ package com.learning.globofly.activities;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,14 +11,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.learning.globofly.R;
-import com.learning.globofly.Utils.Helper;
-import com.learning.globofly.Network.ApiServices;
-import com.learning.globofly.Network.RetrofitInstance;
-import com.learning.globofly.ViewModel.DestinyListViewModel;
-import com.learning.globofly.adapters.CountryListAdapter;
-import com.learning.globofly.models.Destination;
-
-import java.util.List;
+import com.learning.globofly.utils.Helper;
+import com.learning.globofly.viewmodel.DestinyListViewModel;
 
 public class MainActivity extends AppCompatActivity {
 
