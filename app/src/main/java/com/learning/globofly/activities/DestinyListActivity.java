@@ -1,8 +1,6 @@
 package com.learning.globofly.activities;
 
-import static com.learning.globofly.activities.DestinyAddActivity.CITY;
-import static com.learning.globofly.activities.DestinyAddActivity.COUNTRY;
-import static com.learning.globofly.activities.DestinyAddActivity.DESCRIPTION;
+import static com.learning.globofly.activities.DestinyAddActivity.DESTINATION;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -60,13 +58,10 @@ public class DestinyListActivity extends AppCompatActivity implements ClickListe
                     @Override
                     public void onActivityResult(ActivityResult result) {
                         if (result.getResultCode() == RESULT_OK) {
-                            Destination destination = new Destination();
+                            Destination destination = result.getData().getParcelableExtra(DESTINATION);
                             int index = result.getData().getIntExtra(INDEX, -1);
-                            destination.setCity(result.getData().getStringExtra(CITY));
-                            destination.setCountry(result.getData().getStringExtra(COUNTRY));
-                            destination.setDescription(result.getData().getStringExtra(DESCRIPTION));
-
                             int request_code = result.getData().getIntExtra(REQUEST_CODE, -1);
+
                             if (request_code == NEW_WORD_ACTIVITY_REQUEST_CODE) {
                                 viewModel.addDestination(destination);
                             } else if (request_code == UPDATE_WORD_ACTIVITY_REQUEST_CODE) {
@@ -111,9 +106,7 @@ public class DestinyListActivity extends AppCompatActivity implements ClickListe
         Destination destination = destinations.get(position);
         Intent intent = new Intent(DestinyListActivity.this, DestinyAddActivity.class);
         intent.putExtra(INDEX, position);
-        intent.putExtra(CITY, destination.getCity());
-        intent.putExtra(COUNTRY, destination.getCountry());
-        intent.putExtra(DESCRIPTION, destination.getDescription());
+        intent.putExtra(DESTINATION, destination);
         intentResultLauncher.launch(intent);
     }
 
@@ -136,7 +129,6 @@ public class DestinyListActivity extends AppCompatActivity implements ClickListe
                 Toast.makeText(getApplicationContext(), destination.getCity() + " has been deleted.", Toast.LENGTH_SHORT).show();
                 // Delete the word
                 viewModel.deleteDestination(position);
-                countryListAdapter.notifyItemRemoved(position);
             }
         });
         itemTouchHelper.attachToRecyclerView(destinationRecyclerView);

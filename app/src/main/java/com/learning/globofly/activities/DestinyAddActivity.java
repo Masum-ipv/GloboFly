@@ -1,14 +1,10 @@
 package com.learning.globofly.activities;
 
-import static com.learning.globofly.utils.Helper.notEmpty;
 import static com.learning.globofly.activities.DestinyListActivity.INDEX;
 import static com.learning.globofly.activities.DestinyListActivity.NEW_WORD_ACTIVITY_REQUEST_CODE;
 import static com.learning.globofly.activities.DestinyListActivity.REQUEST_CODE;
 import static com.learning.globofly.activities.DestinyListActivity.UPDATE_WORD_ACTIVITY_REQUEST_CODE;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.ViewModelProvider;
+import static com.learning.globofly.utils.Helper.notEmpty;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,7 +13,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.ViewModelProvider;
+
 import com.learning.globofly.R;
+import com.learning.globofly.models.Destination;
 import com.learning.globofly.viewmodel.DestinyListViewModel;
 
 public class DestinyAddActivity extends AppCompatActivity {
@@ -25,10 +26,8 @@ public class DestinyAddActivity extends AppCompatActivity {
     EditText city, country, description;
     Button saveButton;
     private DestinyListViewModel viewModel;
-    public static final String CITY = "city";
-    public static final String COUNTRY = "country";
-    public static final String DESCRIPTION = "description";
-    private int index = -1;
+    public static final String DESTINATION = "destination";
+    private int index = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,10 +57,11 @@ public class DestinyAddActivity extends AppCompatActivity {
 
         final Bundle bundle = getIntent().getExtras();
         if (bundle != null) { //During data update
+            Destination destination = bundle.getParcelable(DESTINATION);
             index = bundle.getInt(INDEX);
-            city.setText(bundle.getString(CITY));
-            country.setText(bundle.getString(COUNTRY));
-            description.setText(bundle.getString(DESCRIPTION));
+            city.setText(destination.getCity());
+            country.setText(destination.getCountry());
+            description.setText(destination.getDescription());
         }
 
         saveButton.setOnClickListener(new View.OnClickListener() {
@@ -69,9 +69,11 @@ public class DestinyAddActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent();
                 if (notEmpty(city) && notEmpty(country) && notEmpty(description)) {
-                    intent.putExtra(CITY, city.getText().toString());
-                    intent.putExtra(COUNTRY, country.getText().toString());
-                    intent.putExtra(DESCRIPTION, description.getText().toString());
+                    Destination destination = new Destination(
+                            city.getText().toString(),
+                            description.getText().toString(),
+                            country.getText().toString());
+                    intent.putExtra(DESTINATION, destination);
 
                     if (bundle != null) { //Update
                         intent.putExtra(INDEX, index);

@@ -1,12 +1,17 @@
 package com.learning.globofly.models;
 
-import javax.annotation.Generated;
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import javax.annotation.Generated;
+
 @Generated("jsonschema2pojo")
-public class Destination {
+public class Destination implements Parcelable {
 
     @SerializedName("city")
     @Expose
@@ -51,4 +56,34 @@ public class Destination {
         this.country = country;
     }
 
+    //Parcel
+    public final static Parcelable.Creator<Destination> CREATOR = new Creator<Destination>() {
+        @Override
+        public Destination createFromParcel(Parcel parcel) {
+            return new Destination(parcel);
+        }
+
+        @Override
+        public Destination[] newArray(int i) {
+            return new Destination[i];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(@NonNull Parcel parcel, int i) {
+        parcel.writeValue(city);
+        parcel.writeValue(country);
+        parcel.writeValue(description);
+    }
+
+    public Destination(Parcel parcel) {
+        this.city = (String) parcel.readValue(String.class.getClassLoader());
+        this.country = (String) parcel.readValue(String.class.getClassLoader());
+        this.description = (String) parcel.readValue(String.class.getClassLoader());
+    }
 }
