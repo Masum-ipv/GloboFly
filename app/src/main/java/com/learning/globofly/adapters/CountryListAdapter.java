@@ -4,13 +4,14 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.learning.globofly.R;
+import com.learning.globofly.databinding.DestinyItemBinding;
 import com.learning.globofly.models.Destination;
 import com.learning.globofly.utils.DestinyDiffCallBack;
 
@@ -29,20 +30,19 @@ public class CountryListAdapter extends RecyclerView.Adapter<CountryListAdapter.
     @NonNull
     @Override
     public CountryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater layoutInflater = LayoutInflater.from(context);
-        View view = layoutInflater.inflate(R.layout.destiny_item, parent, false);
-        return new CountryViewHolder(view);
+        DestinyItemBinding itemBinding = DataBindingUtil.inflate(
+                LayoutInflater.from(parent.getContext()),
+                R.layout.destiny_item,
+                parent,
+                false
+        );
+        return new CountryViewHolder(itemBinding);
     }
 
     @Override
     public void onBindViewHolder(@NonNull CountryViewHolder holder, int position) {
-        if (destinations != null) {
-            holder.countryId.setText(destinations.get(position).getCountry());
-            holder.cityId.setText(destinations.get(position).getCity());
-        } else {
-            holder.countryId.setText("No Data");
-            holder.cityId.setText("No Data");
-        }
+        Destination destination = destinations.get(position);
+        holder.itemBinding.setDestination(destination);
     }
 
     @Override
@@ -52,12 +52,11 @@ public class CountryListAdapter extends RecyclerView.Adapter<CountryListAdapter.
 
     class CountryViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        TextView cityId, countryId;
+        private DestinyItemBinding itemBinding;
 
-        public CountryViewHolder(@NonNull @org.jetbrains.annotations.NotNull View itemView) {
-            super(itemView);
-            cityId = itemView.findViewById(R.id.cityID);
-            countryId = itemView.findViewById(R.id.countryID);
+        public CountryViewHolder(DestinyItemBinding itemBinding) {
+            super(itemBinding.getRoot());
+            this.itemBinding = itemBinding;
 
             itemView.setOnClickListener(this);
         }

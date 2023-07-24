@@ -5,6 +5,10 @@ plugins {
 android {
     compileSdkVersion 33
 
+    buildFeatures {
+        dataBinding true
+    }
+
     defaultConfig {
         applicationId "com.learning.globofly"
         minSdkVersion 24

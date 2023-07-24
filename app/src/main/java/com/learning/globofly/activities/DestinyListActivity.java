@@ -13,16 +13,17 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.learning.globofly.R;
 import com.learning.globofly.adapters.CountryListAdapter;
 import com.learning.globofly.adapters.CountryListAdapter.ClickListener;
+import com.learning.globofly.databinding.ActivityDestinyListBinding;
 import com.learning.globofly.models.Destination;
 import com.learning.globofly.viewmodel.DestinyListViewModel;
 
@@ -32,7 +33,7 @@ public class DestinyListActivity extends AppCompatActivity implements ClickListe
 
     RecyclerView destinationRecyclerView;
     private List<Destination> destinations;
-    FloatingActionButton fab;
+    private ActivityDestinyListBinding listBinding;
     CountryListAdapter countryListAdapter;
     private DestinyListViewModel viewModel;
     int swipeDirections = ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT;
@@ -46,9 +47,8 @@ public class DestinyListActivity extends AppCompatActivity implements ClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_destiny_list);
+        listBinding = DataBindingUtil.setContentView(this, R.layout.activity_destiny_list);
 
-        fab = findViewById(R.id.addButton);
         destinationRecyclerView = findViewById(R.id.destinationList);
         loadDestinations();
 
@@ -71,7 +71,7 @@ public class DestinyListActivity extends AppCompatActivity implements ClickListe
                     }
                 });
 
-        fab.setOnClickListener(new View.OnClickListener() {
+        listBinding.addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(DestinyListActivity.this, DestinyAddActivity.class);

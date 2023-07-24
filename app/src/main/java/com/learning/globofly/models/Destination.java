@@ -4,14 +4,17 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
+import androidx.databinding.BaseObservable;
+import androidx.databinding.Bindable;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.learning.globofly.BR;
 
 import javax.annotation.Generated;
 
 @Generated("jsonschema2pojo")
-public class Destination implements Parcelable {
+public class Destination extends BaseObservable implements Parcelable {
 
     @SerializedName("city")
     @Expose
@@ -32,28 +35,34 @@ public class Destination implements Parcelable {
         this.country = country;
     }
 
+    @Bindable
     public String getCity() {
         return city;
     }
 
     public void setCity(String city) {
         this.city = city;
+        notifyPropertyChanged(BR.city);
     }
 
+    @Bindable
     public String getDescription() {
         return description;
     }
 
     public void setDescription(String description) {
         this.description = description;
+        notifyPropertyChanged(BR.description);
     }
 
+    @Bindable
     public String getCountry() {
         return country;
     }
 
     public void setCountry(String country) {
         this.country = country;
+        notifyPropertyChanged(BR.country);
     }
 
     //Parcel
