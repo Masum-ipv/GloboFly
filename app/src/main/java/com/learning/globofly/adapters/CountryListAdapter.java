@@ -1,17 +1,18 @@
 package com.learning.globofly.adapters;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.learning.globofly.R;
 import com.learning.globofly.models.Destination;
+import com.learning.globofly.utils.DestinyDiffCallBack;
 
 import java.util.List;
 
@@ -21,9 +22,8 @@ public class CountryListAdapter extends RecyclerView.Adapter<CountryListAdapter.
     Context context;
     private List<Destination> destinations;
 
-    public CountryListAdapter(Context context, List<Destination> destinations) {
+    public CountryListAdapter(Context context) {
         this.context = context;
-        this.destinations = destinations;
     }
 
     @NonNull
@@ -74,5 +74,12 @@ public class CountryListAdapter extends RecyclerView.Adapter<CountryListAdapter.
 
     public void setOnItemClickerListener(ClickListener clickerListener) {
         CountryListAdapter.clickListener = clickerListener;
+    }
+
+    public void setDestinations(List<Destination> newDestinations) {
+        final DiffUtil.DiffResult result = DiffUtil.calculateDiff(
+                new DestinyDiffCallBack(destinations, newDestinations), false);
+        destinations = newDestinations;
+        result.dispatchUpdatesTo(CountryListAdapter.this);
     }
 }

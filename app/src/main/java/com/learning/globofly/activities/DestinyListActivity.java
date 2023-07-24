@@ -95,8 +95,9 @@ public class DestinyListActivity extends AppCompatActivity implements ClickListe
     }
 
     private void loadAdapter() {
-        countryListAdapter = new CountryListAdapter(this, destinations);
+        countryListAdapter = new CountryListAdapter(this);
         destinationRecyclerView.setAdapter(countryListAdapter);
+        countryListAdapter.setDestinations(destinations);
         destinationRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         countryListAdapter.setOnItemClickerListener(this);
     }

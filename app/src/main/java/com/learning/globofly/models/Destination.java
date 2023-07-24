@@ -86,4 +86,15 @@ public class Destination implements Parcelable {
         this.country = (String) parcel.readValue(String.class.getClassLoader());
         this.description = (String) parcel.readValue(String.class.getClassLoader());
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Destination destination = (Destination) o;
+        return country.equals(destination.country) &&
+                city.equals(destination.city) &&
+                description.equals(destination.description);
+    }
+
 }
