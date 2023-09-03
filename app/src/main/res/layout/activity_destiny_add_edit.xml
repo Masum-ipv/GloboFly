@@ -19,15 +19,9 @@
         android:layout_height="match_parent"
         tools:context=".activities.DestinyAddActivity">
 
-        <androidx.appcompat.widget.Toolbar
+        <include
             android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/purple_700"
-            android:elevation="4dp"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:layout_constraintTop_toTopOf="parent"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+            layout="@layout/toolbar" />
 
         <ImageView
             android:id="@+id/plane_image"
